@@ -12,13 +12,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lunchrestauranger i Stockholm</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_API_KEY&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_KEY'] %>&libraries=places"></script>
     <script>
     // Ensure the script runs after the API script is loaded
     function initialize() {
       try {
         console.log("Initializing Google Maps...");
-        const googleApiKey = "GOOGLE_API_KEY";
+        const googleApiKey = "<%= ENV['GOOGLE_API_KEY'] %>";
         console.log("Google API Key: " + googleApiKey);
 
         // Example: Initialize a map
