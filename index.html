@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lunchrestauranger i Stockholm</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ site.google_api_key }}&libraries=places">
-    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ site.google_api_key }}&libraries=places"></script>
     <script>
     // Ensure the script runs after the API script is loaded
     function initialize() {
       try {
+        console.log("Initializing Google Maps...");
         const googleApiKey = "{{ site.google_api_key }}";
         console.log("Google API Key: " + googleApiKey);
 
@@ -18,6 +18,8 @@
           center: { lat: -34.397, lng: 150.644 },
           zoom: 8
         });
+
+        console.log("Google Maps initialized successfully.");
       } catch (error) {
         console.error("Error initializing Google Maps:", error);
       }
@@ -44,6 +46,7 @@
 <button onclick="searchRestaurants()">Hitta restauranger</button>
 
 <div id="results"></div>
+<div id="map" style="height: 400px; width: 100%;"></div>
 
 <script>
 function searchRestaurants() {
