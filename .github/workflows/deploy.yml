@@ -16,7 +16,10 @@ jobs:
       - name: Set up Ruby
         uses: actions/setup-ruby@v1
         with:
-          ruby-version: '3.0'
+          ruby-version: '3.x'
+
+      - name: Install Jekyll
+        run: gem install jekyll bundler
 
       - name: Install dependencies
         run: bundle install
