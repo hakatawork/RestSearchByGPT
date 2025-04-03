@@ -26,7 +26,10 @@
     }
 
     // Initialize the map when the window loads
-    window.onload = initialize;
+    window.onload = function() {
+      console.log("Window loaded, calling initialize...");
+      initialize();
+    };
   </script>
     <style>
         body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px; }
@@ -85,7 +88,10 @@ function callback(results, status) {
 }
 
 // Sök automatiskt vid sidladdning med standardvärde
-window.onload = searchRestaurants;
+window.onload = function() {
+  console.log("Window loaded, calling searchRestaurants...");
+  searchRestaurants();
+};
 </script>
 
 </body>
