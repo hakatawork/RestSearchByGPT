@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lunchrestauranger i Stockholm</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ site.google_api_key }}&libraries=places"></script>
     <script>
     // Ensure the script runs after the API script is loaded
     function initialize() {
@@ -24,57 +23,54 @@
         console.error("Error initializing Google Maps:", error);
       }
     }
+// 1. Inkludera getCookie-funktionen (från föregående svar)
 function getCookie(cookieName) {
-  // Lägg till '=' i slutet av namnet vi letar efter för att säkerställa
-  // att vi hittar rätt cookie (t.ex. inte "user" när vi letar efter "username")
   let name = cookieName + "=";
-
-  // Hämta alla cookies och avkoda dem (ifall de innehåller specialtecken)
   let decodedCookie = decodeURIComponent(document.cookie);
-
-  // Dela upp cookiesträngen i en array av enskilda cookies
   let cookieArray = decodedCookie.split(';');
-
-  // Loopa igenom arrayen
   for(let i = 0; i < cookieArray.length; i++) {
     let cookie = cookieArray[i];
-
-    // Ta bort eventuella mellanslag i början av cookiesträngen
     while (cookie.charAt(0) == ' ') {
       cookie = cookie.substring(1);
     }
-
-    // Kontrollera om denna cookie är den vi letar efter
     if (cookie.indexOf(name) == 0) {
-      // Returnera värdet av cookien (delen efter "cookieName=")
       return cookie.substring(name.length, cookie.length);
     }
   }
-
-  // Returnera en tom sträng eller null om cookien inte hittades
-  return "";
-  // eller return null; // Beroende på vad du föredrar
+  return ""; // Returnera tom sträng om den inte hittas
 }
 
-// --- Exempel på användning ---
+// 2. Funktion för att ladda Google Maps-skriptet
+function loadGoogleMapsScript() {
+  // Ange namnet på cookien där du lagrar API-nyckeln
+  const apiKeyCookieName = "googleMapsApiKey"; // <-- ÄNDRA DETTA vid behov
 
-// Antag att det finns en cookie som heter "username" med värdet "KalleAnka"
-let username = getCookie("GOOGLE_API_KEY");
+  // Hämta API-nyckeln från cookien
+  const apiKey = getCookie(apiKeyCookieName);
 
-if (username) { // Kontrollera om cookien hittades (inte är en tom sträng eller null)
-  console.log("Nyckel från cookien är: " + username);
-  // Här kan du använda värdet, t.ex. visa det på sidan:
-  // document.getElementById("welcomeMessage").innerText = "Välkommen " + username;
-} else {
-  console.log("Cookien 'GOOGLE_API_KEY' hittades inte.");
-}
+  // Kontrollera om vi fick en API-nyckel
+  if (apiKey) {
+    // Skapa en ny script-tagg
+    const script = document.createElement('script');
 
-// Försök hämta en cookie som kanske inte finns
-let sessionData = getCookie("sessionInfo");
-if (sessionData) {
-  console.log("Sessiondata:", sessionData);
-} else {
-  console.log("Cookien 'sessionInfo' hittades inte.");
+    // Konstruera URL:en med API-nyckeln från cookien
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initMap`; // Lägg till callback om du har en initMap-funktion
+
+    // Gör att skriptet laddas asynkront men körs i ordning efter att HTML är parsad
+    script.defer = true;
+    // script.async = true; // Alternativ om ordningen inte spelar roll
+
+    // Lägg till script-taggen i <head> (eller document.body)
+    document.head.appendChild(script);
+
+    console.log("Google Maps script laddas med API-nyckel från cookie.");
+
+  } else {
+    // Hantera fallet där API-nyckeln inte hittades i cookien
+    console.error(`Kunde inte ladda Google Maps: API-nyckel saknas i cookie ('${apiKeyCookieName}').`);
+    // Du kanske vill visa ett felmeddelande för användaren här
+    // document.getElementById('map-container').innerText = "Kartan kunde inte laddas (API-nyckel saknas).";
+  }
 }
   </script>
     <style>
@@ -137,6 +133,8 @@ function callback(results, status) {
 window.onload = function() {
       console.log("Window loaded, calling initialize...");
       initialize();
+    console.log("Window loaded, calling loadGoogleMapsScript...");
+    loadGoogleMapsScript();
   console.log("Window loaded, calling searchRestaurants...");
   searchRestaurants();
 };
