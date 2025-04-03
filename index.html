@@ -63,7 +63,7 @@ function loadGoogleMapsScript() {
     // Lägg till script-taggen i <head> (eller document.body)
     document.head.appendChild(script);
 
-    console.log("Google Maps script laddas med API-nyckel från cookie. ('${apiKey}')");
+    console.log(`Google Maps script laddas med API-nyckel från cookie. ('${apiKey}')`);
 
   } else {
     // Hantera fallet där API-nyckeln inte hittades i cookien
