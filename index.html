@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lunchrestauranger i Stockholm</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=&libraries=places"></script>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px; }
+        h1 { text-align: center; }
+        input { padding: 10px; width: 100%; margin-bottom: 20px; font-size: 16px; }
+        button { padding: 10px; font-size: 16px; cursor: pointer; }
+        .restaurant { padding: 10px; border-bottom: 1px solid #ddd; }
+        .open { color: green; }
+        .closed { color: red; }
+    </style>
+</head>
+<body>
+
+<h1>Lunchrestauranger i Stockholm</h1>
+
+<input type="text" id="locationInput" placeholder="Ange område (t.ex. Södermalm, Vasastan)">
+<button onclick="searchRestaurants()">Hitta restauranger</button>
+
+<div id="results"></div>
+
+<script>
+function searchRestaurants() {
+    const plats = document.getElementById('locationInput').value || "Stockholms innerstad";
+    const request = {
+        query: `lunchrestaurang i ${plats}`,
+        fields: ['name', 'formatted_address', 'rating', 'opening_hours'],
+    };
+
+    const service = new google.maps.places.PlacesService(document.createElement('div'));
+    service.textSearch(request, callback);
+}
+
+function callback(results, status) {
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = '';
+
+    if (status === google.maps.places.PlacesServiceStatus.OK && results.length > 0) {
+        results.forEach(place => {
+            const isOpen = place.opening_hours?.isOpen();
+            const statusText = isOpen ? '<span class="open">Öppet nu</span>' :
+                              (isOpen === false ? '<span class="closed">Stängt nu</span>' : 'Öppettider okända');
+
+            resultsDiv.innerHTML += `
+                <div class="restaurant">
+                    <strong>${place.name}</strong><br>
+                    Adress: ${place.formatted_address}<br>
+                    Betyg: ${place.rating || 'Inget betyg'}<br>
+                    Status: ${statusText}
+                </div>
+            `;
+        });
+    } else {
+        resultsDiv.innerHTML = '<p>Inga restauranger hittades. Prova ett annat område.</p>';
+    }
+}
+
+// Sök automatiskt vid sidladdning med standardvärde
+window.onload = searchRestaurants;
+</script>
+
+</body>
+</html>
