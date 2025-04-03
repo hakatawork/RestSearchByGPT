@@ -20,11 +20,17 @@ jobs:
 
       - name: Debug environment
         run: |
+          echo "Ruby version:"
           ruby -v
+          echo "Gem version:"
           gem -v
+          echo "Bundler version:"
           bundle -v
+          echo "Ruby location:"
           which ruby
+          echo "Gem location:"
           which gem
+          echo "Bundler location:"
           which bundle
 
       - name: Install Jekyll and Bundler
@@ -32,8 +38,13 @@ jobs:
 
       - name: Install dependencies
         run: |
+          echo "Running bundle install"
           bundle install --verbose
-          bundle config set path 'vendor/bundle'
+        env:
+          BUNDLE_PATH: vendor/bundle
+
+      - name: List installed gems
+        run: gem list
 
       - name: Build site
         run: bundle exec jekyll build --verbose
