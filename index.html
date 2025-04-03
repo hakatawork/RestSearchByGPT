@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lunchrestauranger i Stockholm</title>
     <script src="https://maps.googleapis.com/maps/api/js?key={{ site.google_api_key }}&libraries=places">
-         console.log("Google API Key: " + googleApiKey);
+           const googleApiKey = "{{ site.google_api_key }}";
+              console.log("Google API Key: " + googleApiKey);
     </script>
     <style>
         body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px; }
