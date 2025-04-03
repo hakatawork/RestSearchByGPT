@@ -24,7 +24,58 @@
         console.error("Error initializing Google Maps:", error);
       }
     }
+function getCookie(cookieName) {
+  // Lägg till '=' i slutet av namnet vi letar efter för att säkerställa
+  // att vi hittar rätt cookie (t.ex. inte "user" när vi letar efter "username")
+  let name = cookieName + "=";
 
+  // Hämta alla cookies och avkoda dem (ifall de innehåller specialtecken)
+  let decodedCookie = decodeURIComponent(document.cookie);
+
+  // Dela upp cookiesträngen i en array av enskilda cookies
+  let cookieArray = decodedCookie.split(';');
+
+  // Loopa igenom arrayen
+  for(let i = 0; i < cookieArray.length; i++) {
+    let cookie = cookieArray[i];
+
+    // Ta bort eventuella mellanslag i början av cookiesträngen
+    while (cookie.charAt(0) == ' ') {
+      cookie = cookie.substring(1);
+    }
+
+    // Kontrollera om denna cookie är den vi letar efter
+    if (cookie.indexOf(name) == 0) {
+      // Returnera värdet av cookien (delen efter "cookieName=")
+      return cookie.substring(name.length, cookie.length);
+    }
+  }
+
+  // Returnera en tom sträng eller null om cookien inte hittades
+  return "";
+  // eller return null; // Beroende på vad du föredrar
+}
+
+// --- Exempel på användning ---
+
+// Antag att det finns en cookie som heter "username" med värdet "KalleAnka"
+let username = getCookie("GOOGLE_API_KEY");
+
+if (username) { // Kontrollera om cookien hittades (inte är en tom sträng eller null)
+  console.log("Nyckel från cookien är: " + username);
+  // Här kan du använda värdet, t.ex. visa det på sidan:
+  // document.getElementById("welcomeMessage").innerText = "Välkommen " + username;
+} else {
+  console.log("Cookien 'GOOGLE_API_KEY' hittades inte.");
+}
+
+// Försök hämta en cookie som kanske inte finns
+let sessionData = getCookie("sessionInfo");
+if (sessionData) {
+  console.log("Sessiondata:", sessionData);
+} else {
+  console.log("Cookien 'sessionInfo' hittades inte.");
+}
   </script>
     <style>
         body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px; }
