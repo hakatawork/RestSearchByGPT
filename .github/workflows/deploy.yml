@@ -18,11 +18,19 @@ jobs:
         with:
           ruby-version: '3.x'
 
-      - name: Install Jekyll
+      - name: Debug environment
+        run: |
+          ruby -v
+          gem -v
+          bundle -v
+
+      - name: Install Jekyll and Bundler
         run: gem install jekyll bundler
 
       - name: Install dependencies
         run: bundle install
+        env:
+          BUNDLE_PATH: vendor/bundle
 
       - name: Build site
         run: bundle exec jekyll build
