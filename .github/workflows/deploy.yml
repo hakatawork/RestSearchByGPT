@@ -36,6 +36,14 @@ jobs:
       - name: Install Jekyll and Bundler
         run: gem install jekyll bundler
 
+      - name: Install additional gems
+        run: |
+          gem install csv -v '3.3.3'
+          gem install json -v '2.10.2'
+          gem install rexml -v '3.4.1'
+          gem install bigdecimal -v '3.1.9'
+          gem install rake -v '13.2.1'
+
       - name: Install dependencies
         run: |
           echo "Running bundle install"
