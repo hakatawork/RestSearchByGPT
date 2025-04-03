@@ -5,9 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lunchrestauranger i Stockholm</title>
     <script src="https://maps.googleapis.com/maps/api/js?key={{ site.google_api_key }}&libraries=places">
-           const googleApiKey = "{{ site.google_api_key }}";
-              console.log("Google API Key: " + googleApiKey);
     </script>
+    <script>
+    // Ensure the script runs after the API script is loaded
+    function initialize() {
+      const googleApiKey = "{{ site.google_api_key }}";
+      console.log("Google API Key: " + googleApiKey);
+    }
+
+    // Initialize the map when the window loads
+    window.onload = initialize;
+  </script>
     <style>
         body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px; }
         h1 { text-align: center; }
